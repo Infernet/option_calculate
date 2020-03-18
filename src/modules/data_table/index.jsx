@@ -13,50 +13,54 @@ function DataTable(props) {
   const [interval] = useState({from: 0, to: 50});
   const [legsNetCost, setLegsNetCost] = useState(0);
   const [legsNetCostNonMargin, setLegsNetCostNonMargin] = useState(0);
+  const [result, setResult] = useState([]);
 
-  /*
-    function getDebitCredit() {
-      let debitCredit = null;
-      switch (action) {
-        case 'Buy':
-          debitCredit = cost;
-          legsnetcost += debitCredit;
-          if (type !== 'Future')
-            legsnetcostnonmargin += debitCredit;
-          break;
-        case 'Sell':
-          debitCredit = -cost;
-          legsnetcost -= debitCredit;
-          if (type !== 'Future')
-            legsnetcostnonmargin -= debitCredit;
-          break;
-        default:
-      }
-      return debitCredit;
-    }
-
-    function getNetValues(items, legsNetCostNonMargin, legsNetCost) {
-      let result = [];
-      for (let i = direction.from; i < direction.to; i++) {
-        let buff = 0;
-        items.forEach(item => {
-          buff += item.Value[i];
-        });
-        result.push([
-          i,
-          buff,
-          buff - legsNetCostNonMargin,
-          (buff - legsNetCostNonMargin) / Math.abs(legsNetCost) * 100,
-        ]);
-      }
-      return result;
-    }
-  */
-
+  //calculate TotalCost
   useEffect(() => {
     console.log(items);
     window.test = items;
+    window.result = result;
+  }, [items, result]);
+
+  //calculate legsNetCostNonMargin & setLegsNetCostNonMargin
+  useEffect(() => {
+    let newlegsNetCost = 0;
+    let newlegsNetCostNonMargin = 0;
+    items.forEach(({data}) => {
+      if (data) {
+        newlegsNetCost += data.Cost;
+        if (data.Type !== 'Future')
+          newlegsNetCostNonMargin += data.Cost;
+      }
+    });
+    setLegsNetCost(newlegsNetCost);
+    setLegsNetCostNonMargin(newlegsNetCostNonMargin);
   }, [items]);
+
+  //generate stats
+  useEffect(() => {
+    let netresult = [];
+    let valid = true;
+    for (let i = interval.from; i < interval.to; i++) {
+      let buff = 0;
+      items.forEach(({data}) => {
+        if (data && data.Value.length > 0 && Number.isFinite(data.Value[i])) {
+          buff += data.Value[i];
+        } else
+          valid = false;
+      });
+      netresult.push([
+        i,
+        buff,
+        buff - legsNetCostNonMargin,
+        (buff - legsNetCostNonMargin) / Math.abs(legsNetCost) * 100,
+      ]);
+    }
+    if (valid)
+      setResult(netresult);
+    else
+      setResult([]);
+  }, [items, legsNetCost, legsNetCostNonMargin, interval]);
 
   function remove(id) {
     setItems(items.filter(item => item.id !== id));
@@ -73,14 +77,6 @@ function DataTable(props) {
 
   function insert() {
     setItems([...items, ...[{'id': md5(Date.now())}]]);
-  }
-
-  function getTotal() {
-    let total = 0;
-    items.forEach(item => {
-      total += item.debitCredit ? item.debitCredit : 0;
-    });
-    return total;
   }
 
   return (
@@ -112,9 +108,8 @@ function DataTable(props) {
             <td/>
             <td/>
             <td/>
-            <td/>
-            <td/>
-            <td>{getTotal()}</td>
+            <td>{legsNetCostNonMargin}</td>
+            <td>{legsNetCost}</td>
             <td/>
           </tr>
           </tbody>

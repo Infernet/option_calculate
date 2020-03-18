@@ -5,18 +5,26 @@ import {MDBInput} from 'mdbreact';
 
 function Row(props) {
   //row data
+  // const [action, setAction] = useState('Buy');
+  // const [type, setType] = useState('Call');
+  // const [quantity, setQuantity] = useState(0);
+  // const [strike, setStrike] = useState(0);
+  // const [price, setPrice] = useState(0);
+  // const [cost, setCost] = useState(0);
+  // const [values, setValues] = useState([]);
+
   const [action, setAction] = useState('Buy');
   const [type, setType] = useState('Call');
-  const [quantity, setQuantity] = useState(0);
-  const [strike, setStrike] = useState(0);
-  const [price, setPrice] = useState(0);
+  const [quantity, setQuantity] = useState(2);
+  const [strike, setStrike] = useState(22.5);
+  const [price, setPrice] = useState(2);
   const [cost, setCost] = useState(0);
   const [values, setValues] = useState([]);
 
   //calculate cost hook
   useEffect(() => {
     let result = 0;
-    if (type && !Number.isNaN(Number.parseFloat(price)) && quantity > 0) {
+    if (type && action && !Number.isNaN(Number.parseFloat(price)) && quantity > 0) {
       switch (type) {
         case 'Call':
           result = Number.parseFloat(price) * 100 * quantity;
@@ -32,10 +40,24 @@ function Row(props) {
           break;
         default:
       }
+      switch (action) {
+        case 'Buy':
+          break;
+        case 'Sell':
+          result *= -1;
+          break;
+        default:
+      }
     }
     setCost(result);
+  }, [type, action, price, quantity]);
+  //calculate values hook
+  useEffect(() => {
+    let newValues = [];
+    console.log(`ID ${action && type && props.interval && quantity > 0 &&
+    !Number.isNaN(Number.parseFloat(price)) &&
+    !Number.isNaN(Number.parseFloat(strike))}`);
 
-    let newValues=[];
     if (action && type && props.interval && quantity > 0 &&
         !Number.isNaN(Number.parseFloat(price)) &&
         !Number.isNaN(Number.parseFloat(strike))) {
@@ -71,10 +93,6 @@ function Row(props) {
       }
     }
     setValues(newValues);
-  }, [type, price, quantity]);
-  //calculate values hook
-  useEffect(() => {
-
   }, [action, type, props.interval, quantity, price, strike]);
 
   //select options
@@ -103,10 +121,6 @@ function Row(props) {
       value: 'Future',
     },
   ]);
-
-  function getValues() {
-
-  }
 
   useEffect(() => {
     props.update({
