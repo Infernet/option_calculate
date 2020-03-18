@@ -1,11 +1,10 @@
-export default function optionsgraph() {
 
   var from = 0;
   var to = 50;
 
   var parameters = [
-    ['Buy', 'Stock', 1, 100, 90],
-    ['Sell', 'Stock', 1, 100, 90],
+    ['Sell', 'Future', 1, 15, 17.15],
+    ['Buy', 'Call', 2, 22.5, 2],
   ];
 
   var numlegs = parameters.filter((p) => p[2] != '').length;
@@ -115,5 +114,5 @@ export default function optionsgraph() {
     }
     return netresult;
   }
-}
+
 

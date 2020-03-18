@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
 function Graph(props) {
+
+
   const options = {
     title: {text: ''},
     yAxis: {
@@ -20,11 +23,11 @@ function Graph(props) {
     legend: {
       align: 'right',
       verticalAlign: 'top',
-      layout: 'linear',
+      layout: '',
       borderWidth: 1,
-      floating: true,
-      y:100,
-      x:-200
+      floating: false,
+      y:0,
+      x:0
     },
     xAxis:{
       gridLineWidth: 1,
@@ -35,27 +38,37 @@ function Graph(props) {
         }
       }
     },
-    series: [{
-      name:"example",
-      data: [10, 20, 60],
-      marker: {
-        enabled: false
-      }
-    },
+    series: [
       {
-        name:"test",
-        data:[
-          [0, 29.9],
-          [1, 71.5],
-          [3, 106.4]
-        ],
+        name:"test_1",
+        data:props.draw.map(array=>[array[0],array[1]]),
         marker: {
           enabled: true,
           fillColor: 'red',
-          lineWidth: 2,
+          lineWidth: 0.5,
           lineColor: null // inherit from series
         }
-      }
+      },
+      {
+        name:"test_2",
+        data:props.draw.map(array=>[array[0],array[2]]),
+        marker: {
+          enabled: true,
+          fillColor: 'blue',
+          lineWidth: 0.5,
+          lineColor: null // inherit from series
+        }
+      },
+      {
+        name:"test_3",
+        data:props.draw.map(array=>[array[0],array[3]]),
+        marker: {
+          enabled: true,
+          fillColor: 'green',
+          lineWidth: 0.5,
+          lineColor: null // inherit from series
+        }
+      },
     ]
   }
 
@@ -67,6 +80,8 @@ function Graph(props) {
   );
 }
 
-Graph.propTypes = {};
+Graph.propTypes = {
+  draw:PropTypes.array.isRequired
+};
 
 export default Graph;

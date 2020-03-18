@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {MDBBtn, MDBCloseIcon, MDBTable} from 'mdbreact';
+import PropTypes from 'prop-types';
 import {Row} from './components';
 import md5 from 'md5';
 
@@ -15,6 +16,10 @@ function DataTable(props) {
   const [legsNetCostNonMargin, setLegsNetCostNonMargin] = useState(0);
   const [result, setResult] = useState([]);
 
+  useEffect(()=>{
+    props.draw(result);
+  },[result]);
+
   //calculate TotalCost
   useEffect(() => {
     console.log(items);
@@ -24,6 +29,7 @@ function DataTable(props) {
 
   //calculate legsNetCostNonMargin & setLegsNetCostNonMargin
   useEffect(() => {
+    console.log('Перерасчет суммы')
     let newlegsNetCost = 0;
     let newlegsNetCostNonMargin = 0;
     items.forEach(({data}) => {
@@ -39,12 +45,13 @@ function DataTable(props) {
 
   //generate stats
   useEffect(() => {
+    console.log('Итоговый расчет');
     let netresult = [];
     let valid = true;
     for (let i = interval.from; i < interval.to; i++) {
       let buff = 0;
       items.forEach(({data}) => {
-        if (data && data.Value.length > 0 && Number.isFinite(data.Value[i])) {
+        if (data /*&& data.Value.length > 0 && Number.isFinite(data.Value[i])*/) {
           buff += data.Value[i];
         } else
           valid = false;
@@ -56,9 +63,11 @@ function DataTable(props) {
         (buff - legsNetCostNonMargin) / Math.abs(legsNetCost) * 100,
       ]);
     }
-    if (valid)
+    if (valid) {
+      console.log('Итоговый успех');
       setResult(netresult);
-    else
+    }
+      else
       setResult([]);
   }, [items, legsNetCost, legsNetCostNonMargin, interval]);
 
@@ -121,6 +130,8 @@ function DataTable(props) {
   );
 }
 
-DataTable.propTypes = {};
+DataTable.propTypes = {
+  draw:PropTypes.func.isRequired
+};
 
 export default DataTable;
