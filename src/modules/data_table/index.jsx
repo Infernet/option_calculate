@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {MDBBtn, MDBCloseIcon, MDBTable} from 'mdbreact';
+import {
+  MDBBtn,
+  MDBCloseIcon,
+  MDBTable,
+  MDBTableBody,
+  MDBTableHead,
+} from 'mdbreact';
 import PropTypes from 'prop-types';
 import {Row} from './components';
 import md5 from 'md5';
@@ -14,18 +20,7 @@ function DataTable(props) {
   const [interval] = useState({from: 0, to: 50});
   const [legsNetCost, setLegsNetCost] = useState(0);
   const [legsNetCostNonMargin, setLegsNetCostNonMargin] = useState(0);
-  const [result, setResult] = useState([]);
 
-  useEffect(()=>{
-    props.draw(result);
-  },[result]);
-
-  //calculate TotalCost
-  useEffect(() => {
-    console.log(items);
-    window.test = items;
-    window.result = result;
-  }, [items, result]);
 
   //calculate legsNetCostNonMargin & setLegsNetCostNonMargin
   useEffect(() => {
@@ -65,10 +60,10 @@ function DataTable(props) {
     }
     if (valid) {
       console.log('Итоговый успех');
-      setResult(netresult);
+      props.draw(netresult);
     }
       else
-      setResult([]);
+      props.draw([]);
   }, [items, legsNetCost, legsNetCostNonMargin, interval]);
 
   function remove(id) {
@@ -89,9 +84,9 @@ function DataTable(props) {
   }
 
   return (
-      <>
-        <MDBTable className={'data-table'}>
-          <thead>
+      <div className={'container'}>
+        <MDBTable className={'data-table container'} striped bordered>
+          <MDBTableHead color={'elegant-color-dark'} textWhite>
           <tr>
             <th>Buy / Shell</th>
             <th>Quantity</th>
@@ -101,8 +96,8 @@ function DataTable(props) {
             <th>Debit / Credit</th>
             <th/>
           </tr>
-          </thead>
-          <tbody>
+          </MDBTableHead>
+          <MDBTableBody>
           {
             items.map((item) =>
                 <tr className="calc__row" key={item.id}>
@@ -117,16 +112,16 @@ function DataTable(props) {
             <td/>
             <td/>
             <td/>
-            <td>{legsNetCostNonMargin}</td>
+            <td/>
             <td>{legsNetCost}</td>
             <td/>
           </tr>
-          </tbody>
+          </MDBTableBody>
         </MDBTable>
         <div className="insert">
-          <MDBBtn onClick={insert}>Add</MDBBtn>
+          <MDBBtn color={'elegant-color'} onClick={insert}>Add</MDBBtn>
         </div>
-      </>
+      </div>
   );
 }
 

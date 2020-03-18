@@ -1,23 +1,22 @@
-import React, {useState} from 'react';
-import AbstractPage from "../abstract_page";
-import DataTable from "../data_table";
+import React, {useEffect, useState} from 'react';
+import AbstractPage from '../abstract_page';
+import DataTable from '../data_table';
 import Graph from '../graph';
 
-
 function App() {
-const [result,setResult]=useState([]);
+  const [result, setResult] = useState([]);
 
-  function draw(array) {
-    setResult(array);
-  }
+  useEffect(()=>{
+    console.log(result);
+  },[result]);
 
   return (
-      <AbstractPage header={<div>Header</div>} footer={<div>Footer</div>}>
-          <DataTable draw={draw}/>
+      <AbstractPage>
+        <DataTable draw={setResult}/>
+        <div className="graph container">
           <p className="title">Options Strategy P/L Chart</p>
-          <div className="graph">
-            <Graph draw={result}/>
-          </div>
+          <Graph draw={result}/>
+        </div>
       </AbstractPage>
   );
 }

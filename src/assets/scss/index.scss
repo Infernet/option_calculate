@@ -9,6 +9,26 @@ body{
   flex-direction: column;
 }
 
+.data-table{
+  thead{
+    th{
+      text-align: center;
+    }
+  }
+  tbody{
+    td{
+      vertical-align: middle;
+      text-align: center;
+    }
+  }
+}
+
+.title{
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+
 *{
   padding: 0;
   box-sizing: border-box;
