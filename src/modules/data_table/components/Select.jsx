@@ -11,11 +11,14 @@ function Select(props) {
 
   return (
       <td>
-        <select className={'custom-select'} onChange={changeOption}
-                defaultValue={props.default && props.default}>
+        <select className={'custom-select'} onChange={changeOption}>
           {
             props.items.map((item, i) => <option key={i}
-                                                 value={item.index}>{item.value}</option>)
+                                                 value={item.index}
+                                                 selected={props.value != null && (item.value === props.value)}
+                                         >
+                                         {item.value}
+                                         </option>)
           }
         </select>
       </td>
@@ -25,6 +28,7 @@ function Select(props) {
 Select.propTypes = {
   select: PropTypes.func.isRequired,
   items: PropTypes.array.isRequired,
+  value: PropTypes.string
 };
 
 export default Select;

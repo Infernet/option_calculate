@@ -144,9 +144,9 @@ function Row(props) {
 
   return (
       <>
-        <Select select={setAction} items={actionItems}/>
+        <Select select={setAction} items={actionItems} value={action}/>
         <InputInteger handler={setQuantity} default={quantity}/>
-        <Select select={setType} items={typeItems}/>
+        <Select select={setType} items={typeItems} value={type}/>
         <td>
           <MDBInput type="number" valueDefault={strike && strike}
                     onInput={e => setStrike(Math.abs(e.target.value))}
