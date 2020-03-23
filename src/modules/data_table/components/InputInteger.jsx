@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {MDBInput} from "mdbreact";
+import { MDBInput} from 'mdbreact';
 
 
 function InputInteger(props) {
@@ -19,10 +19,8 @@ function InputInteger(props) {
   }
 
   return (
-      <td>
-        <MDBInput type="number" valueDefault={props.default && props.default} onInput={handler} step={1}
+        <MDBInput type="number" valueDefault={props.default && props.default} onChange={handler} step={1}
                   value={props.default && props.default}/>
-      </td>
   );
 }
 

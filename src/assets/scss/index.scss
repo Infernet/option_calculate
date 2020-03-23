@@ -1,35 +1,156 @@
-body{
-  background-color: cadetblue;
-}
 
-#root{
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.data-table{
-  thead{
-    th{
-      text-align: center;
-    }
-  }
-  tbody{
-    td{
-      vertical-align: middle;
-      text-align: center;
-    }
+.container-fluid {
+  @media (max-width: 576px) {
+    padding: 0 5px;
   }
 }
 
-.controls{
+.container {
+  @media (max-width: 576px) {
+    padding: 0 !important;
+  }
+}
+
+.data-table {
+  .table-head {
+    background-color: rgba(15, 15, 15, 0.54);
+
+    > div {
+      border: 0.5px solid rgba(168, 168, 168, 0.65);
+
+      &:first-child {
+        border-left: 1px solid rgba(168, 168, 168, 0.65);
+      }
+
+      &:last-child {
+        border-right: 1px solid rgba(168, 168, 168, 0.65);
+      }
+    }
+  }
+
+  .table-head__col {
+    font-size: 18px;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+    border: 1px solid #fff;
+    @media (max-width: 999px) {
+      font-size: 15px;
+    }
+    @media (max-width: 768px) {
+      font-size: 13px;
+    }
+    @media (max-width: 576px) {
+      font-size: 7px;
+    }
+  }
+
+  .data {
+    background-color: rgba(255, 255, 255, 0.55);
+
+    > div {
+      border: 0.5px solid rgba(168, 168, 168, 0.65);
+
+      &:first-child {
+        border-left: 1px solid rgba(168, 168, 168, 0.65);
+      }
+
+      &:last-child {
+        border-right: 1px solid rgba(168, 168, 168, 0.65);
+      }
+    }
+
+    .td__ {
+      &select, &input, &cost, &close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-top: none;
+        font-size: 15px;
+        @media (max-width: 999px) {
+          font-size: 13px;
+          input, select, option {
+            font-size: 13px;
+          }
+        }
+        @media (max-width: 768px) {
+          font-size: 12px;
+          input, select {
+            font-size: 12px;
+          }
+        }
+        @media (max-width: 576px) {
+          font-size: 7px;
+          input, select {
+            font-size: 7px;
+          }
+        }
+        @media (max-width: 350px) {
+          input, select {
+            padding: 0 !important;
+          }
+          font-size: 5px;
+          input, select {
+            font-size: 5px;
+          }
+        }
+
+        input {
+          text-align: center;
+        }
+      }
+
+      &close {
+        @media (max-width: 576px) {
+          padding: 0;
+        }
+      }
+
+    }
+  }
+
+  .data__footer {
+    div {
+      padding: 15px 0;
+    }
+  }
+
+  .set-bg {
+    background-color: rgba(161, 161, 161, 0.33);
+  }
+}
+
+.table__container {
+
+
+  .insert {
+    margin-top: 25px;
+
+    button {
+      @media (max-width: 576px) {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+.insert button {
+  margin: 0;
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
+  @media (max-width: 576px) {
+    font-size: 12px;
+  }
+}
+
+.controls {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 
-  label{
+  label {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -37,13 +158,14 @@ body{
   }
 }
 
-.title{
+.title {
   margin-bottom: 20px;
   margin-top: 20px;
-}
-
-
-*{
-  padding: 0;
-  box-sizing: border-box;
+  font-size: 20px;
+  @media (max-width: 999px) {
+    font-size: 18px;
+  }
+  @media (max-width: 576px) {
+    font-size: 15px;
+  }
 }

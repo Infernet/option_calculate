@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
     MDBBtn,
-    MDBCloseIcon,
+    MDBCloseIcon, MDBCol, MDBContainer, MDBRow,
     MDBTable,
     MDBTableBody,
     MDBTableHead,
@@ -24,10 +24,8 @@ function DataTable(props) {
     const [legsNetCost, setLegsNetCost] = useState(0);
     const [legsNetCostNonMargin, setLegsNetCostNonMargin] = useState(0);
 
-
-    //calculate legsNetCostNonMargin & setLegsNetCostNonMargin
+    //generate stats
     useEffect(() => {
-        console.log('calculate legsNetCostNonMargin & setLegsNetCostNonMargin hook');
         let newlegsNetCost = 0;
         let newlegsNetCostNonMargin = 0;
         items.forEach(({data}) => {
@@ -37,15 +35,8 @@ function DataTable(props) {
                     newlegsNetCostNonMargin += data.Cost;
             }
         });
-        console.log(`newlegsNetCost ${newlegsNetCost}`);
-        console.log(`newlegsNetCostNonMargin ${newlegsNetCostNonMargin}`);
         setLegsNetCost(newlegsNetCost);
         setLegsNetCostNonMargin(newlegsNetCostNonMargin);
-    }, [items]);
-
-    //generate stats
-    useEffect(() => {
-        console.log('generate stats hook');
         let netresult = [];
         let valid = true;
         for (let i = props.interval.from; i < props.interval.to; i++) {
@@ -64,11 +55,10 @@ function DataTable(props) {
             ]);
         }
         if (valid) {
-            console.log('success stats');
             props.draw(netresult);
         } else
             props.draw([]);
-    }, [legsNetCost, legsNetCostNonMargin, props.interval]);
+    }, [items, props.interval]);
 
     function remove(id) {
         setItems(items.filter(item => item.id !== id));
@@ -88,44 +78,41 @@ function DataTable(props) {
     }
 
     return (
-        <div className={'container'}>
-            <MDBTable className={'data-table container'} striped bordered>
-                <MDBTableHead color={'elegant-color-dark'} textWhite>
-                    <tr>
-                        <th>Buy / Shell</th>
-                        <th>Quantity</th>
-                        <th>Call / Put / Stock</th>
-                        <th>Strike</th>
-                        <th>Premium</th>
-                        <th>Debit / Credit</th>
-                        <th/>
-                    </tr>
-                </MDBTableHead>
-                <MDBTableBody>
+        <MDBContainer className={'table__container'}>
+            <MDBContainer className={'data-table'}>
+                <MDBRow className={'table-head'} color={'elegant-color-dark'}>
+                        <MDBCol size='2' className={'table-head__col'}>Buy / Shell</MDBCol>
+                        <MDBCol size='2' className={'table-head__col'}>Quantity</MDBCol>
+                        <MDBCol size='2' className={'table-head__col'}>Call / Put / Stock</MDBCol>
+                        <MDBCol size='1' className={'table-head__col'}>Strike</MDBCol>
+                        <MDBCol size='2' className={'table-head__col'}>Premium</MDBCol>
+                        <MDBCol size='2' className={'table-head__col'}>Debit / Credit</MDBCol>
+                        <MDBCol size='1' className={'table-head__col td__close'}/>
+                </MDBRow>
+
                     {
-                        items.map((item) =>
-                            <tr className="calc__row" key={item.id}>
+                        items.map((item,i) =>
+                            <MDBRow className={`data${ i%2 === 0 ? ' set-bg':''}`} key={item.id}>
                                 <Row update={update} id={item.id} remove={remove}
                                      interval={props.interval}/>
-                                <td><MDBCloseIcon onClick={e => remove(item.id)}/></td>
-                            </tr>,
+                                <MDBCol size='1' className={'td__close'}> <MDBCloseIcon onClick={e => remove(item.id)}/></MDBCol>
+                            </MDBRow>,
                         )
                     }
-                    <tr>
-                        <td>Total</td>
-                        <td/>
-                        <td/>
-                        <td/>
-                        <td/>
-                        <td>{legsNetCost.toFixed(2)}</td>
-                        <td/>
-                    </tr>
-                </MDBTableBody>
-            </MDBTable>
+                <MDBRow className={`data data__footer ${items.length%2 === 0 ? ' set-bg':''}`}>
+                    <MDBCol size='2' className={'td__select'}>Total</MDBCol>
+                    <MDBCol size='2' className={'td__input'}/>
+                    <MDBCol size='2' className={'td__select'}/>
+                    <MDBCol size='1' className={'td__input'}/>
+                    <MDBCol size='2' className={'td__input'}/>
+                    <MDBCol size='2' className={'td__cost'}>{legsNetCost.toFixed(2)}</MDBCol>
+                    <MDBCol size='1' className={'td__close'}/>
+                </MDBRow>
+            </MDBContainer>
             <div className="insert">
                 <MDBBtn color={'elegant-color'} onClick={insert}>Add</MDBBtn>
             </div>
-        </div>
+        </MDBContainer>
     );
 }
 
