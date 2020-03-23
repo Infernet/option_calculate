@@ -109,9 +109,10 @@ function Row(props) {
         }
         setValues(newValues);
     }, [action, type, props.interval, quantity, price, strike]);
+
     //update graph
     useEffect(() => {
-        console.log('Update graph hook');
+        console.log('Update item hook');
         props.update({
             Action: action,
             Type: type,
@@ -121,7 +122,7 @@ function Row(props) {
             Cost: cost,
             Value: values,
         }, props.id);
-    }, [action, quantity, type, strike, price, cost, values]);
+    }, [values]);
 
     return (
         <>
@@ -141,7 +142,7 @@ function Row(props) {
                 />
             </td>
             <td>
-                {cost}
+                {cost.toFixed(2)}
             </td>
         </>
     );

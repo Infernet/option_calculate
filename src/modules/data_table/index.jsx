@@ -27,7 +27,7 @@ function DataTable(props) {
 
     //calculate legsNetCostNonMargin & setLegsNetCostNonMargin
     useEffect(() => {
-        console.log('Перерасчет суммы')
+        console.log('calculate legsNetCostNonMargin & setLegsNetCostNonMargin hook');
         let newlegsNetCost = 0;
         let newlegsNetCostNonMargin = 0;
         items.forEach(({data}) => {
@@ -37,13 +37,15 @@ function DataTable(props) {
                     newlegsNetCostNonMargin += data.Cost;
             }
         });
+        console.log(`newlegsNetCost ${newlegsNetCost}`);
+        console.log(`newlegsNetCostNonMargin ${newlegsNetCostNonMargin}`);
         setLegsNetCost(newlegsNetCost);
         setLegsNetCostNonMargin(newlegsNetCostNonMargin);
     }, [items]);
 
     //generate stats
     useEffect(() => {
-        console.log('Итоговый расчет');
+        console.log('generate stats hook');
         let netresult = [];
         let valid = true;
         for (let i = props.interval.from; i < props.interval.to; i++) {
@@ -62,11 +64,11 @@ function DataTable(props) {
             ]);
         }
         if (valid) {
-            console.log('Итоговый успех');
+            console.log('success stats');
             props.draw(netresult);
         } else
             props.draw([]);
-    }, [items, legsNetCost, legsNetCostNonMargin, props.interval]);
+    }, [legsNetCost, legsNetCostNonMargin, props.interval]);
 
     function remove(id) {
         setItems(items.filter(item => item.id !== id));
@@ -115,7 +117,7 @@ function DataTable(props) {
                         <td/>
                         <td/>
                         <td/>
-                        <td>{legsNetCost}</td>
+                        <td>{legsNetCost.toFixed(2)}</td>
                         <td/>
                     </tr>
                 </MDBTableBody>

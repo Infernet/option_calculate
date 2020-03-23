@@ -9,7 +9,6 @@ function App() {
     const [interval, setInterval] = useState({from: 0, to: 50});
 
     useEffect(() => {
-        console.log(result);
         window.result=result;
     }, [result]);
 
