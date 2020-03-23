@@ -1,5 +1,5 @@
 body{
-
+  background-color: cadetblue;
 }
 
 #root{
@@ -20,6 +20,20 @@ body{
       vertical-align: middle;
       text-align: center;
     }
+  }
+}
+
+.controls{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  label{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
   }
 }
 
