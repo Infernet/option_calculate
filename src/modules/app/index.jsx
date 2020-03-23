@@ -11,10 +11,6 @@ function App() {
   //debounce
   const [interval] = useDebounce(intervalDebounce, 300);
 
-  useEffect(() => {
-    window.result = result;
-  }, [result]);
-
   function changeFrom(e) {
     let value = Number.parseFloat(e.target.value.replace(',', '.'));
     if (isNaN(value))

@@ -58,7 +58,7 @@ function DataTable(props) {
             props.draw(netresult);
         } else
             props.draw([]);
-    }, [items, props.interval]);
+    }, [items]);
 
     function remove(id) {
         setItems(items.filter(item => item.id !== id));
