@@ -2,9 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {
     MDBBtn,
     MDBCloseIcon, MDBCol, MDBContainer, MDBRow,
-    MDBTable,
-    MDBTableBody,
-    MDBTableHead,
 } from 'mdbreact';
 import PropTypes from 'prop-types';
 import {Row} from './components';
@@ -65,12 +62,8 @@ function DataTable(props) {
     }
 
     function update(data, id) {
-        setItems(items.map((item) => {
-            if (item.id === id)
-                return {...item, ...{data}};
-            else
-                return item;
-        }));
+        items.find(item=>item.id===id).data=data;
+        setItems([...items]);
     }
 
     function insert() {
@@ -89,10 +82,9 @@ function DataTable(props) {
                         <MDBCol size='2' className={'table-head__col'}>Debit / Credit</MDBCol>
                         <MDBCol size='1' className={'table-head__col td__close'}/>
                 </MDBRow>
-
                     {
                         items.map((item,i) =>
-                            <MDBRow className={`data${ i%2 === 0 ? ' set-bg':''}`} key={item.id}>
+                            <MDBRow className={`data${ i%2 === 0 ? ' set-bg':''}`} key={i}>
                                 <Row update={update} id={item.id} remove={remove}
                                      interval={props.interval}/>
                                 <MDBCol size='1' className={'td__close'}> <MDBCloseIcon onClick={e => remove(item.id)}/></MDBCol>

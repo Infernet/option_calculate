@@ -80,7 +80,7 @@ function Row(props) {
   //calculate values hook
   useEffect(() => {
     let newValues = [];
-    if (action && type && props.interval && quantity > 0 &&
+    if (action && type && quantity > 0 &&
         !Number.isNaN(price) &&
         (type === 'Stock' || !Number.isNaN(strike))
     ) {
